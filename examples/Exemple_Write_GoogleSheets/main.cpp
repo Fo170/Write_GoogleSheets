@@ -1,9 +1,11 @@
 // ============================================================
 // Exemple — écriture dans une feuille Google Sheets (ESP8266)
 //
-// ⚠️ SÉCURITÉ : ce fichier ne doit contenir AUCUN secret. Renseignez vos
-//    propres valeurs ci-dessous (ou, mieux, dans un fichier non versionné
-//    type `secrets.h` ajouté au .gitignore).
+// ⚠️ SÉCURITÉ : ce fichier est PUBLIÉ — il ne doit contenir AUCUN secret.
+//    Les valeurs réelles vont dans `secrets.h`, à côté de ce fichier.
+//    `secrets.h` est exclu par .gitignore → jamais publié.
+//
+//    Sans secrets.h, l'exemple compile avec des placeholders (non fonctionnel).
 // ============================================================
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
@@ -11,12 +13,23 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-// ---- À RENSEIGNER (ne pas committer de vraies valeurs) ----
-const char* ssid          = "YOUR_SSID";
-const char* password      = "YOUR_PASSWORD";
-const char* spreadsheetId = "YOUR_SPREADSHEET_ID";
-const char* apiKey        = "YOUR_API_KEY";
-// ----------------------------------------------------------
+// ---- Identifiants : secrets.h (local, non versionné) ou placeholders ----
+#if __has_include("secrets.h")
+  #include "secrets.h"
+  #define HAVE_SECRETS 1
+#else
+  #define SECRET_SPREADSHEET_ID "YOUR_SPREADSHEET_ID"
+  #define SECRET_API_KEY        "YOUR_API_KEY"
+  #define SECRET_WIFI_SSID      "YOUR_SSID"
+  #define SECRET_WIFI_PASSWORD  "YOUR_PASSWORD"
+  #define HAVE_SECRETS 0
+#endif
+
+const char* ssid          = SECRET_WIFI_SSID;
+const char* password      = SECRET_WIFI_PASSWORD;
+const char* spreadsheetId = SECRET_SPREADSHEET_ID;
+const char* apiKey        = SECRET_API_KEY;
+// -----------------------------------------------------------------------
 
 #define ONE_WIRE_BUS D4
 OneWire oneWire(ONE_WIRE_BUS);
@@ -31,6 +44,12 @@ float secondes = 0.0;
 void setup()
 {
     Serial.begin(115200);
+
+#if !HAVE_SECRETS
+    Serial.println("\n[!] secrets.h absent : identifiants fictifs.");
+    Serial.println("    Copiez secrets.h.example -> secrets.h et renseignez vos valeurs.");
+#endif
+
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) { delay(500); Serial.print("."); }
     Serial.println("\nWiFi connected");
