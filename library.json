@@ -1,6 +1,6 @@
 {
   "name": "Write_GoogleSheets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ecriture de valeurs dans une feuille Google Sheets (API v4) pour Arduino/ESP8266/ESP32. Header-only. Aucun identifiant code en dur : l'ID de feuille et la cle API sont fournis par le programme hote (extern).",
   "keywords": "google, sheets, spreadsheet, api, esp8266, esp32, arduino",
   "authors":

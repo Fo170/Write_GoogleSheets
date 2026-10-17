@@ -1,5 +1,5 @@
 // Version de la librairie (source UNIQUE — agrégée par liste_lib.h)
-#define __WRITE_GOOGLESHEETS_H_VERSION__ "1.0.0"
+#define __WRITE_GOOGLESHEETS_H_VERSION__ "1.0.1"
 
 // #define à définir dans le programme principal :
 //#define PRINT_DEBUG_MESSAGES_Write_GoogleSheets
